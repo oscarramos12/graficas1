@@ -39,10 +39,10 @@ def glInit(selec):
         
     elif(selec == "obj"):
         
-        new_bmp = bmps.Renderer(3840, 2160)
+        new_bmp = bmps.Renderer(1920, 1080)
         new_bmp.glViewPort(1004,748,10,10)
         
-        new_bmp.load('./mp5k.obj',[60,35],[30, 30])
+        new_bmp.load('./mp5k.obj',[62,35,0],[15,15,15])
         new_bmp.render()
             
     else:
