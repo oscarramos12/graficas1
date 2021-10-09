@@ -1,4 +1,8 @@
 import bitmaps as bmps
+import obj
+from bitmaps import *
+import shader as sha
+
 
 def glInit(selec):
     
@@ -40,15 +44,40 @@ def glInit(selec):
     elif(selec == "obj"):
         
         new_bmp = bmps.Renderer(1920, 1080)
-        new_bmp.glViewPort(1004,748,10,10)
+        new_bmp.glViewPort(1900,1060,10,10)
+        new_bmp.background()
+        t= obj.Texture('./models/1.bmp')
+        new_bmp.active_texture = t
+        new_bmp.lookAt(V3(5, 0, 2), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion
+        new_bmp.load('./models/madara.obj',[1,-0.7,0],[0.2,0.2,0.2])
+        new_bmp.active_shader = sha.thermal
+        new_bmp.draw_arrays('TRIANGLES')
+        new_bmp.lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/gun1.obj',[0.45,-0.25,3],[0.3,0.3,0.3])
+        new_bmp.active_shader = sha.lava
+        new_bmp.draw_arrays('TRIANGLES')
+        new_bmp.lookAt(V3(-8, -60, 1), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/vaporeon.obj',[-1,-11.5,0],[0.13,0.13,0.13])
+        new_bmp.active_shader = sha.tooned
+        new_bmp.draw_arrays('TRIANGLES')
+        new_bmp.lookAt(V3(5, -20, 10), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/dagger1.obj',[-0.18,-1.5,0],[0.25,0.25,0.25])
+        new_bmp.active_shader = sha.candy
+        new_bmp.draw_arrays('TRIANGLES')
+        new_bmp.lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/Rock1.obj',[-0.8,-0.8,0],[0.1,0.1,0.1])
+        new_bmp.active_shader = sha.gourad
+        new_bmp.draw_arrays('TRIANGLES')
         
-        new_bmp.load('./mp5k.obj',[62,35,0],[15,15,15])
+        
         new_bmp.render()
             
     else:
         print("|-------------------------|")
         print("|     Datos Invalidos     |")
         print("|-------------------------|")
+        
+
         
         
         

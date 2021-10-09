@@ -4,7 +4,7 @@ while(True != False):
     print("|-------------------------------------------------|")
     print("|               Programa graficas                 |")
     print("|-------------------------------------------------|\n")
-    print("Seleccione que laboratiorio quiere probar:\n 1)SR1 \n 2)SR2 \n 3)SR3 \n4)SR4")
+    print("Seleccione que laboratiorio quiere probar:\n 1)SR1 \n 2)SR2 \n 3)SR3 \n 4)SR4")
 
     inp = input("--->")
 

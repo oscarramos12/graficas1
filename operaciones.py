@@ -3,6 +3,9 @@ from collections import namedtuple
 V2 = namedtuple('Point2D', ['x', 'y'])
 V3 = namedtuple('Point3D', ['x', 'y', 'z'])
 
+def color(r,g,b):
+    return bytes([r,g,b])
+
 def bbox(A,B,C):
     xs = [A.x,B.x,C.x]
     ys = [A.y,B.y,C.y]
@@ -20,11 +23,11 @@ def cross(v1,v2):
 def bary(A,B,C,P):
     
     cx,cy,cz = cross(
-        V3(B.x - A.x, C.x - A.x, A.x - P.x), 
-        V3(B.y - A.y, C.y - A.y, A.y - P.y)
+        V3(C.x - A.x, B.x - A.x, A.x - P.x), 
+        V3(C.y - A.y, B.y - A.y, A.y - P.y)
         )
     
-    if(abs(cz) <= 1):
+    if(abs(cz) < 1):
         return -1, -1, -1
     
     u = cx/cz
@@ -47,3 +50,34 @@ def norm(v1):
 
 def dot(v1,v2):
     return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z
+
+def mul(X,Y):
+    result = [[sum(a*b for a,b in zip(X_row,Y_col)) for Y_col in zip(*Y)] for X_row in X]
+    return result
+
+def mat_dot(m1, m2):
+    if not isinstance(m1[0], list):
+        m1 = [[i] for i in m1]
+    if not isinstance(m2[0], list):
+        m2 = [[i] for i in m2]
+  
+    c = []
+    for i in range(0,len(m1)):
+        temp=[]
+        for j in range(0,len(m2[0])):
+            s = 0
+            for k in range(0,len(m1[0])):
+                s += m1[i][k]*m2[k][j]
+            temp.append(s)
+        c.append(temp)
+    return c
+
+def length(v0):
+  return (v0.x**2 + v0.y**2 + v0.z**2)**0.5
+
+
+def frombuffer(array, dtype):
+    newarray = []
+    for element in array:
+        newarray.append(element)
+    return newarray
