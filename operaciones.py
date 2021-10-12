@@ -55,22 +55,36 @@ def mul(X,Y):
     result = [[sum(a*b for a,b in zip(X_row,Y_col)) for Y_col in zip(*Y)] for X_row in X]
     return result
 
-def mat_dot(m1, m2):
-    if not isinstance(m1[0], list):
-        m1 = [[i] for i in m1]
-    if not isinstance(m2[0], list):
-        m2 = [[i] for i in m2]
-  
-    c = []
-    for i in range(0,len(m1)):
+def mat_dot(mat1, mat2):
+    
+    if not isinstance(mat1[0], list):        
+        mat1 = [[i] for i in mat1]
+        
+    if not isinstance(mat2[0], list):
+        mat2 = [[i] for i in mat2]
+      
+    res = []
+    cont1 = 0
+    cont2 = 0
+    cont3 = 0
+    while(cont1<len(mat1)):
         temp=[]
-        for j in range(0,len(m2[0])):
-            s = 0
-            for k in range(0,len(m1[0])):
-                s += m1[i][k]*m2[k][j]
-            temp.append(s)
-        c.append(temp)
-    return c
+        cont2 = 0
+        while(cont2<len(mat2[0])):
+            
+            var = 0
+            cont3 = 0
+            while(cont3<len(mat1[0])):
+                
+                var += mat1[cont1][cont3] * mat2[cont3][cont2]
+                cont3 = cont3 + 1
+                
+            temp.append(var)
+            cont2 = cont2 + 1
+            
+        res.append(temp)
+        cont1 = cont1 + 1
+    return res
 
 def length(v0):
   return (v0.x**2 + v0.y**2 + v0.z**2)**0.5
@@ -81,3 +95,15 @@ def frombuffer(array, dtype):
     for element in array:
         newarray.append(element)
     return newarray
+
+def mul(X,Y):
+    result = [[sum(a*b for a,b in zip(X_row,Y_col)) for Y_col in zip(*Y)] for X_row in X]
+    return result
+
+def zeros_matrix(rows, cols):
+
+    M = []
+    while len(M) < rows:
+        M.append([])
+        while len(M[-1]) < cols:
+            M[-1].append(0.0)
