@@ -369,7 +369,142 @@ class Renderer(object):
                 x = x + 1
             x = 0
             y = y + 1
+            
+    def background_space(self):
+        x = 0
+        y = 0
+        while(y < self.height):
+            while(x < self.width):
+                if(y < self.height):
+                    star = rand.randint(1,300)
+                    if(star == 1):
+                        
+                        self.framebuffer[y][x] = color(rand.randint(150,215),rand.randint(150,215),rand.randint(150,215))
+                    else:
+                        self.framebuffer[y][x] = color(rand.randint(0,50),rand.randint(0,50),rand.randint(0,50))
+                x = x + 1
+            x = 0
+            y = y + 1
+            
     
+    def poly_line(self,x1,y1,x2,y2):
+        
+
+        dy = abs(y2 - y1)
+        dx = abs(x2 - x1)
+        steep = dy > dx
+
+        if steep:
+            x1, y1 = y1, x1
+            x2, y2 = y2, x2
+
+        if x1 > x2:
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
+
+        dy = abs(y2 - y1)
+        dx = abs(x2 - x1)
+
+        offset = 0
+        
+        threshold = dx
+
+        y = y1
+        for x in range(x1, x2 + 1):
+            if steep:
+                self.framebuffer[x][y] = self.pointColor
+            else:
+                self.framebuffer[y][x] = self.pointColor
+
+            offset += dy * 2
+            if offset >= threshold:
+                y += 1 if y1 < y2 else -1
+                threshold += dx * 2
+    def poly_draw(self, points):
+        cont = 0
+        while(cont <= len(points)):
+            if(cont == 0):
+                x1,y1,x2,y2 = points[0],points[1],points[2],points[3]
+                self.poly_line(x1,y1,x2,y2)
+                lastx,lasty = x2,y2
+                cont = 4
+            elif(cont == len(points)):
+                newx,newy = points[0],points[1]
+                self.poly_line(lastx,lasty,newx,newy)
+                cont = cont + 1
+            else:
+                newx,newy = points[cont],points[cont + 1]
+                self.poly_line(lastx,lasty,newx,newy)
+                lastx,lasty = newx,newy
+                cont = cont + 2
+    def poly_fill(self, points, pink):
+        var = False
+        xs = []
+        ys = []
+        cont = 0
+        while(cont < len(points)):
+            if(var == False):
+                xs.append(points[cont])
+                var = True
+            else:
+                ys.append(points[cont])
+                var = False
+            cont = cont + 1
+        max_x = sorted(xs)[len(xs) - 1]
+        min_x = sorted(xs)[0]
+        max_y = sorted(ys)[len(xs) - 1]
+        min_y = sorted(ys)[0]
+
+        paint = False
+        while(min_y < max_y):
+            min_x = sorted(xs)[0]
+            while(min_x < max_x):
+                if(paint == False):
+                    if(self.framebuffer[min_y][min_x] == pink):
+                        if(self.framebuffer[min_y][min_x + 1] == pink):
+                            while(self.framebuffer[min_y][min_x] == pink):
+                                min_x = min_x + 1
+                            begin_paint = min_x
+                            search = min_x + 1
+                            while(search <= max_x):
+                                if(self.framebuffer[min_y][search] == pink):
+                                    while(begin_paint < search):
+                                        self.framebuffer[min_y][begin_paint] = pink
+                                        begin_paint = begin_paint + 1
+                                    search = search + 1
+                                    min_x = min_x + 2
+                                    break
+                                else:
+                                    search = search + 1
+                                    min_x = min_x + 1
+                        elif(self.framebuffer[min_y][min_x + 1] == black):
+                            begin_paint = min_x
+                            search = min_x + 1
+                            while(search <= max_x):
+                                if(self.framebuffer[min_y][search] == pink):
+                                    while(begin_paint < search):
+                                        self.framebuffer[min_y][begin_paint] = pink
+                                        begin_paint = begin_paint + 1
+                                    search = search + 1
+                                    min_x = min_x + 2
+                                    break
+                                else:
+                                    search = search + 1
+                                    min_x = min_x + 1
+                    else:
+                        min_x = min_x + 1
+                else:
+                    if(self.framebuffer[min_y][min_x] == black):
+                        self.framebuffer[min_y][min_x] = pink
+                        min_x = min_x + 1
+                    else:
+                        self.framebuffer[min_y][min_x] = pink
+                        paint = False
+                        min_x = min_x + 1
+            min_y = min_y + 1
+                            
+                                   
+     
     def write(self,filename):
         f = open(filename, 'bw')
         #fileheader 14
@@ -401,4 +536,4 @@ class Renderer(object):
         f.close()
 
     def render(self):
-        self.write('a.bmp')
+        self.write('Proyecto 1.bmp')

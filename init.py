@@ -71,6 +71,49 @@ def glInit(selec):
         
         
         new_bmp.render()
+        
+    elif(selec == "poly"):
+        
+        new_bmp = bmps.Renderer(800, 450)
+        new_bmp.glViewPort(1024,768,0,0)
+        
+        poly1 = [165, 380,185, 360, 180, 330, 207, 345, 233, 330, 230, 360, 250, 380, 220, 385, 205, 410, 193, 383]
+        poly2 = [321, 335, 288, 286, 339, 251, 374, 302]
+        poly3 = [377, 249, 411, 197, 436, 249]
+        poly4 = [413, 177, 448, 159, 502, 88, 553, 53, 535, 36, 676, 37, 660, 52,750, 145, 761, 179, 672, 192, 659, 214, 615, 214, 632, 230, 580, 230,597, 215, 552, 214, 517, 144, 466, 180]
+        poly5 = [682, 175, 708, 120, 735, 148, 739, 170]
+        new_bmp.poly_draw(poly1)
+        new_bmp.poly_fill(poly1, color(255,0,255))
+        new_bmp.poly_draw(poly2)
+        new_bmp.poly_fill(poly2, color(255,0,255))
+        new_bmp.poly_draw(poly3)
+        new_bmp.poly_fill(poly3, color(255,0,255))
+        new_bmp.poly_draw(poly4)
+        new_bmp.poly_fill(poly4, color(255,0,255))
+        new_bmp.poly_draw(poly5)
+       
+        new_bmp.render()
+        
+    elif(selec == "planet"):
+        
+        new_bmp = bmps.Renderer(600, 600)
+        new_bmp.glViewPort(700,700,0,0)
+        new_bmp.background_space()
+        
+        t= obj.Texture('./models/1.bmp')
+        new_bmp.active_texture = t
+        
+        new_bmp.lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/saturn2.obj',[0,0,0],[0.5,0.5,0.1])
+        new_bmp.active_shader = sha.jupiter
+        new_bmp.draw_arrays('TRIANGLES')
+        
+        new_bmp.lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0, 1, 0))#el primero es rotacion, + izquierda - derecha
+        new_bmp.load('./models/saturn2.obj',[-0.8,0.2,0],[0.08,0.08,0.1])
+        new_bmp.active_shader = sha.moon
+        new_bmp.draw_arrays('TRIANGLES')
+       
+        new_bmp.render()
             
     else:
         print("|-------------------------|")
